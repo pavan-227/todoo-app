@@ -1,1 +1,86 @@
-// All of the behaviour of the To-Do List app lives here.
+// ---------------------------------------------------------------
+// Grab the elements we need from the page (DOM = Document Object Model,
+// the browser's live representation of the HTML).
+// ---------------------------------------------------------------
+var taskInput = document.getElementById("task-input");
+var addButton = document.getElementById("add-button");
+var taskList = document.getElementById("task-list");
+var emptyMessage = document.getElementById("empty-message");
+
+// The single source of truth: an array of task objects.
+// Each task looks like { id: 1712345678901, text: "Buy milk", completed: false }
+var tasks = [];
+
+// ---------------------------------------------------------------
+// showTasks() draws the whole list on the page.
+// Instead of adding/removing single <li> elements by hand, we clear the
+// list and rebuild it from the "tasks" array. That keeps what you see on
+// screen and what is in the array always in sync.
+// ---------------------------------------------------------------
+function showTasks() {
+  // DOM manipulation: empty the <ul> before redrawing it
+  taskList.innerHTML = "";
+
+  for (var i = 0; i < tasks.length; i++) {
+    var task = tasks[i];
+
+    // Create one <li> per task
+    var listItem = document.createElement("li");
+    listItem.className = "task";
+
+    // The task text itself
+    var textSpan = document.createElement("span");
+    textSpan.className = "task-text";
+    textSpan.textContent = task.text; // textContent is safe: it never runs HTML
+
+    listItem.appendChild(textSpan);
+
+    // DOM manipulation: put the finished <li> inside the <ul>
+    taskList.appendChild(listItem);
+  }
+
+  // Show the "No tasks to show." message only when the list is empty
+  if (tasks.length === 0) {
+    emptyMessage.classList.remove("hidden");
+  } else {
+    emptyMessage.classList.add("hidden");
+  }
+}
+
+// ---------------------------------------------------------------
+// addTask() reads the input box and adds a new task to the array.
+// ---------------------------------------------------------------
+function addTask() {
+  var text = taskInput.value.trim(); // trim() removes accidental spaces
+
+  // Ignore empty input so the list never gets blank rows
+  if (text === "") {
+    return;
+  }
+
+  tasks.push({
+    id: Date.now(), // Date.now() gives a number we can use as a unique id
+    text: text,
+    completed: false,
+  });
+
+  taskInput.value = ""; // clear the box, ready for the next task
+  showTasks(); // redraw so the new task appears
+}
+
+// ---------------------------------------------------------------
+// Event listeners: "when this happens, run that function".
+// ---------------------------------------------------------------
+
+// Clicking the Add button adds the task
+addButton.addEventListener("click", addTask);
+
+// Pressing Enter inside the input box also adds the task
+taskInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    addTask();
+  }
+});
+
+// Draw the (currently empty) list once when the page loads
+showTasks();
