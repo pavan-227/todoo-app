@@ -7,6 +7,12 @@ var addButton = document.getElementById("add-button");
 var taskList = document.getElementById("task-list");
 var emptyMessage = document.getElementById("empty-message");
 
+// querySelectorAll() returns a list of every element matching the CSS selector
+var filterButtons = document.querySelectorAll(".filter-button");
+
+// Which filter is selected right now: "all", "completed" or "pending"
+var currentFilter = "all";
+
 // The key (name) under which our tasks are stored in Local Storage
 var STORAGE_KEY = "todoTasks";
 
@@ -47,6 +53,27 @@ function loadTasks() {
 }
 
 // ---------------------------------------------------------------
+// getVisibleTasks() returns only the tasks the current filter allows.
+// The full "tasks" array is never changed by filtering, so switching back
+// to "All" always shows everything again.
+// ---------------------------------------------------------------
+function getVisibleTasks() {
+  if (currentFilter === "completed") {
+    return tasks.filter(function (task) {
+      return task.completed === true;
+    });
+  }
+
+  if (currentFilter === "pending") {
+    return tasks.filter(function (task) {
+      return task.completed === false;
+    });
+  }
+
+  return tasks; // "all"
+}
+
+// ---------------------------------------------------------------
 // showTasks() draws the whole list on the page.
 // Instead of adding/removing single <li> elements by hand, we clear the
 // list and rebuild it from the "tasks" array. That keeps what you see on
@@ -56,8 +83,10 @@ function showTasks() {
   // DOM manipulation: empty the <ul> before redrawing it
   taskList.innerHTML = "";
 
-  for (var i = 0; i < tasks.length; i++) {
-    var task = tasks[i];
+  var visibleTasks = getVisibleTasks();
+
+  for (var i = 0; i < visibleTasks.length; i++) {
+    var task = visibleTasks[i];
 
     // Create one <li> per task
     var listItem = document.createElement("li");
@@ -97,8 +126,8 @@ function showTasks() {
     taskList.appendChild(listItem);
   }
 
-  // Show the "No tasks to show." message only when the list is empty
-  if (tasks.length === 0) {
+  // Show the "No tasks to show." message only when nothing is visible
+  if (visibleTasks.length === 0) {
     emptyMessage.classList.remove("hidden");
   } else {
     emptyMessage.classList.add("hidden");
@@ -177,6 +206,23 @@ function addTask() {
 
 // Clicking the Add button adds the task
 addButton.addEventListener("click", addTask);
+
+// One click listener per filter button.
+// forEach() runs the given function once for every button in the list.
+filterButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    // dataset reads the data-filter="..." attribute from the HTML
+    currentFilter = button.dataset.filter;
+
+    // Move the "active" highlight to the button that was just clicked
+    filterButtons.forEach(function (otherButton) {
+      otherButton.classList.remove("active");
+    });
+    button.classList.add("active");
+
+    showTasks(); // redraw with the new filter applied
+  });
+});
 
 // Pressing Enter inside the input box also adds the task
 taskInput.addEventListener("keydown", function (event) {
