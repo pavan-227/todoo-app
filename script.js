@@ -28,6 +28,17 @@ function showTasks() {
     var listItem = document.createElement("li");
     listItem.className = "task";
 
+    // Adding the "completed" class is what makes the CSS cross out the text
+    if (task.completed) {
+      listItem.classList.add("completed");
+    }
+
+    // The checkbox used to mark a task done / not done
+    var checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = task.completed; // stay ticked after a redraw
+    checkbox.addEventListener("change", createToggleHandler(task.id));
+
     // The task text itself
     var textSpan = document.createElement("span");
     textSpan.className = "task-text";
@@ -43,6 +54,7 @@ function showTasks() {
     // function is created inside this loop step (a "closure").
     deleteButton.addEventListener("click", createDeleteHandler(task.id));
 
+    listItem.appendChild(checkbox);
     listItem.appendChild(textSpan);
     listItem.appendChild(deleteButton);
 
@@ -56,6 +68,28 @@ function showTasks() {
   } else {
     emptyMessage.classList.add("hidden");
   }
+}
+
+// createToggleHandler() works like createDeleteHandler: it remembers the id
+// of the task whose checkbox was clicked.
+function createToggleHandler(id) {
+  return function () {
+    toggleTask(id);
+  };
+}
+
+// ---------------------------------------------------------------
+// toggleTask() flips one task between completed and pending.
+// The "!" operator turns true into false and false into true.
+// ---------------------------------------------------------------
+function toggleTask(id) {
+  for (var i = 0; i < tasks.length; i++) {
+    if (tasks[i].id === id) {
+      tasks[i].completed = !tasks[i].completed;
+    }
+  }
+
+  showTasks();
 }
 
 // createDeleteHandler() returns the function that runs on click.
