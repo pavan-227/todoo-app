@@ -7,9 +7,44 @@ var addButton = document.getElementById("add-button");
 var taskList = document.getElementById("task-list");
 var emptyMessage = document.getElementById("empty-message");
 
+// The key (name) under which our tasks are stored in Local Storage
+var STORAGE_KEY = "todoTasks";
+
 // The single source of truth: an array of task objects.
 // Each task looks like { id: 1712345678901, text: "Buy milk", completed: false }
 var tasks = [];
+
+// ---------------------------------------------------------------
+// Local Storage keeps small pieces of text in the browser, per website,
+// and it survives page refreshes and browser restarts.
+// It can only store strings, so we convert:
+//   array  -> string  with JSON.stringify()
+//   string -> array   with JSON.parse()
+// ---------------------------------------------------------------
+function saveTasks() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+}
+
+// loadTasks() runs once when the page opens and restores what was saved.
+function loadTasks() {
+  var savedText = localStorage.getItem(STORAGE_KEY);
+
+  // getItem() returns null when nothing was ever saved
+  if (savedText === null) {
+    return;
+  }
+
+  // If the stored text is somehow broken, JSON.parse() throws an error.
+  // try/catch lets the app keep working instead of crashing.
+  try {
+    var savedTasks = JSON.parse(savedText);
+    if (Array.isArray(savedTasks)) {
+      tasks = savedTasks;
+    }
+  } catch (error) {
+    tasks = [];
+  }
+}
 
 // ---------------------------------------------------------------
 // showTasks() draws the whole list on the page.
@@ -89,6 +124,7 @@ function toggleTask(id) {
     }
   }
 
+  saveTasks();
   showTasks();
 }
 
@@ -109,6 +145,7 @@ function deleteTask(id) {
     return task.id !== id;
   });
 
+  saveTasks();
   showTasks();
 }
 
@@ -130,6 +167,7 @@ function addTask() {
   });
 
   taskInput.value = ""; // clear the box, ready for the next task
+  saveTasks(); // remember the new task for next time
   showTasks(); // redraw so the new task appears
 }
 
@@ -147,5 +185,6 @@ taskInput.addEventListener("keydown", function (event) {
   }
 });
 
-// Draw the (currently empty) list once when the page loads
+// When the page loads: read the saved tasks, then draw them
+loadTasks();
 showTasks();
