@@ -74,10 +74,10 @@ function getVisibleTasks() {
 }
 
 // ---------------------------------------------------------------
-// showTasks() draws the whole list on the page.
+// showTasks() draws the list on the page.
 // Instead of adding/removing single <li> elements by hand, we clear the
-// list and rebuild it from the "tasks" array. That keeps what you see on
-// screen and what is in the array always in sync.
+// list and rebuild it from the tasks the current filter allows. That keeps
+// what you see on screen and what is in the array always in sync.
 // ---------------------------------------------------------------
 function showTasks() {
   // DOM manipulation: empty the <ul> before redrawing it
