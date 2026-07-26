@@ -33,7 +33,18 @@ function showTasks() {
     textSpan.className = "task-text";
     textSpan.textContent = task.text; // textContent is safe: it never runs HTML
 
+    // The Delete button for this task
+    var deleteButton = document.createElement("button");
+    deleteButton.className = "delete-button";
+    deleteButton.type = "button";
+    deleteButton.textContent = "Delete";
+
+    // Each row gets its own click listener. The id is remembered because the
+    // function is created inside this loop step (a "closure").
+    deleteButton.addEventListener("click", createDeleteHandler(task.id));
+
     listItem.appendChild(textSpan);
+    listItem.appendChild(deleteButton);
 
     // DOM manipulation: put the finished <li> inside the <ul>
     taskList.appendChild(listItem);
@@ -45,6 +56,26 @@ function showTasks() {
   } else {
     emptyMessage.classList.add("hidden");
   }
+}
+
+// createDeleteHandler() returns the function that runs on click.
+// We use a helper function so every button keeps its own task id.
+function createDeleteHandler(id) {
+  return function () {
+    deleteTask(id);
+  };
+}
+
+// ---------------------------------------------------------------
+// deleteTask() removes one task from the array, then redraws.
+// filter() builds a new array containing only the tasks we want to keep.
+// ---------------------------------------------------------------
+function deleteTask(id) {
+  tasks = tasks.filter(function (task) {
+    return task.id !== id;
+  });
+
+  showTasks();
 }
 
 // ---------------------------------------------------------------
