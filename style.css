@@ -1,0 +1,128 @@
+/* ---------- Page basics ---------- */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f6f8;
+  color: #222222;
+  margin: 0;
+  padding: 40px 16px;
+}
+
+/* The app is a white "card" centred on the page */
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 24px;
+  text-align: center;
+  margin-top: 0;
+}
+
+/* ---------- Input box and Add button ---------- */
+.new-task {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+#task-input {
+  flex: 1; /* the input takes all the space the button does not use */
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+}
+
+#add-button {
+  padding: 10px 18px;
+  font-size: 15px;
+  color: #ffffff;
+  background-color: #2f80ed;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#add-button:hover {
+  background-color: #1c66c9;
+}
+
+/* ---------- Filter buttons ---------- */
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.filter-button {
+  padding: 6px 12px;
+  font-size: 14px;
+  background-color: #eef1f5;
+  border: 1px solid #d6dbe1;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* The "active" class is added by JavaScript to the selected filter */
+.filter-button.active {
+  background-color: #2f80ed;
+  border-color: #2f80ed;
+  color: #ffffff;
+}
+
+/* ---------- Task list ---------- */
+#task-list {
+  list-style: none; /* remove the default bullet points */
+  margin: 0;
+  padding: 0;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 4px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.task-text {
+  flex: 1;
+  word-break: break-word;
+}
+
+/* A completed task gets the "completed" class, which crosses out the text */
+.task.completed .task-text {
+  text-decoration: line-through;
+  color: #888888;
+}
+
+.delete-button {
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #ffffff;
+  background-color: #eb5757;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #c94141;
+}
+
+/* ---------- Empty message ---------- */
+#empty-message {
+  text-align: center;
+  color: #888888;
+  font-size: 14px;
+}
+
+/* "hidden" is a helper class: JavaScript adds it to hide an element */
+.hidden {
+  display: none;
+}
