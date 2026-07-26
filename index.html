@@ -7,7 +7,35 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>My To-Do List</h1>
+    <!-- Everything is wrapped in one container so the CSS can centre the app -->
+    <div class="app">
+      <h1>My To-Do List</h1>
+
+      <!-- Input box + Add button: where a new task is typed in -->
+      <div class="new-task">
+        <input
+          id="task-input"
+          type="text"
+          placeholder="What do you need to do?"
+          autocomplete="off"
+        />
+        <button id="add-button" type="button">Add</button>
+      </div>
+
+      <!-- Filter buttons. data-filter is a "data attribute": a custom value
+           the JavaScript can read to know which filter was clicked. -->
+      <div class="filters">
+        <button class="filter-button active" type="button" data-filter="all">All</button>
+        <button class="filter-button" type="button" data-filter="completed">Completed</button>
+        <button class="filter-button" type="button" data-filter="pending">Pending</button>
+      </div>
+
+      <!-- The task list starts empty. JavaScript fills it in at runtime. -->
+      <ul id="task-list"></ul>
+
+      <!-- Shown only when there is nothing to display -->
+      <p id="empty-message">No tasks to show.</p>
+    </div>
 
     <!-- script.js is loaded at the end of the body so the HTML above exists
          before the JavaScript tries to find elements on the page -->
