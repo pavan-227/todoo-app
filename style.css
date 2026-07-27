@@ -126,3 +126,17 @@ h1 {
 .hidden {
   display: none;
 }
+
+.hidden {
+  display: none;
+}
+.hidden {
+  display: none;
+}
+/* 
+/* ---------- Empty message ---------- */
+#empty-message {
+  text-align: center;
+  color: #888888;
+  font-size: 14px;
+} */
