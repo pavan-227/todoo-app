@@ -53,6 +53,22 @@ Expected: pending → `deco:"none"`, `color:"rgb(34, 34, 34)"`; completed → `d
 
 Stored state: `JSON.parse(localStorage.getItem('todoTasks'))`.
 
+Theme/palette cross-check (catches a partially-applied restyle that still "looks pink" in a screenshot):
+
+```js
+(() => { const g = s => getComputedStyle(document.querySelector(s));
+  return JSON.stringify({bodyBg: g('body').backgroundImage, cardBorder: g('.app').borderColor,
+    addBg: g('#add-button').backgroundColor, delBg: g('.delete-button').backgroundColor,
+    h1: g('h1').color, pendingRowLeft: g('.task:not(.completed)').borderLeftColor,
+    title: document.title}); })();
+```
+Expected: `bodyBg` `linear-gradient(160deg, rgb(255, 228, 236) 0%, rgb(255, 242, 117) 100%)`,
+`cardBorder` `rgb(255, 192, 203)`, `addBg` `rgb(255, 217, 61)`, `delBg` `rgb(255, 105, 180)`,
+`h1` `rgb(214, 63, 140)`, `pendingRowLeft` `rgb(255, 217, 61)`, `title` `Todoo`.
+
+**Console-eval gotcha:** a snippet that *starts* with `const`/`let` evaluates to `undefined`. Wrap
+multi-statement probes in an IIFE (`(() => { ... return ...; })()`) or the result comes back empty.
+
 ## Adversarial checks that matter for this app
 - **Delete the middle row of 3+** — deleting the last row would pass even with a broken id match.
 - **Task ids come from `Date.now()`**, so two tasks added within the same millisecond would share an
