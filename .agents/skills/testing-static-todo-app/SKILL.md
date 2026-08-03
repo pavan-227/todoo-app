@@ -33,7 +33,8 @@ localStorage.clear(); location.reload();
 - Input: `#task-input`; Add button: `#add-button`
 - Filters: `.filter-button[data-filter="all"|"completed"|"pending"]`; the selected one gets class `active`
 - List: `#task-list > li.task`, each with `input[type=checkbox]`, `span.task-text`, `button.delete-button`
-- Completed rows get class `completed` on the `<li>`; CSS applies `line-through` + `#888` to `.task.completed .task-text`
+- `span.task-text` is also clickable and toggles completion, exactly like the checkbox
+- Completed rows get class `completed` on the `<li>`; CSS applies `line-through` + `#9b8791` to `.task.completed .task-text`
 - Empty state: `#empty-message` ("No tasks to show.") toggled via the `hidden` class
 - Persistence: `localStorage` key `todoTasks`, a JSON array of `{id, text, completed}`
 
@@ -48,8 +49,8 @@ Row/style state in one eval (avoids judging line-through from a screenshot):
           deco: c.textDecorationLine, color: c.color};
 });
 ```
-Expected: pending → `deco:"none"`, `color:"rgb(34, 34, 34)"`; completed → `deco:"line-through"`,
-`color:"rgb(136, 136, 136)"`. Active filter button → background `rgb(47, 128, 237)`, color `rgb(255, 255, 255)`.
+Expected: pending → `deco:"none"`, `color:"rgb(61, 36, 48)"`; completed → `deco:"line-through"`,
+`color:"rgb(155, 135, 145)"`. Active filter button → background `rgb(255, 105, 180)`, color `rgb(255, 255, 255)`.
 
 Stored state: `JSON.parse(localStorage.getItem('todoTasks'))`.
 
