@@ -1,8 +1,22 @@
+/* ---------- Colour palette ---------- */
+:root {
+  --pink-soft: #ffc0cb;
+  --pink-pale: #ffe4ec;
+  --pink-strong: #ff69b4;
+  --pink-dark: #d63f8c;
+  --yellow: #ffd93d;
+  --yellow-pale: #fff275;
+  --yellow-dark: #e6bf1f;
+  --text: #3d2430;
+  --text-muted: #9b8791;
+}
+
 /* ---------- Page basics ---------- */
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #f4f6f8;
-  color: #222222;
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  background: linear-gradient(160deg, var(--pink-pale) 0%, var(--yellow-pale) 100%);
+  background-attachment: fixed;
+  color: var(--text);
   margin: 0;
   padding: 40px 16px;
 }
@@ -12,15 +26,29 @@ body {
   max-width: 480px;
   margin: 0 auto;
   background-color: #ffffff;
-  border-radius: 8px;
+  border: 2px solid var(--pink-soft);
+  border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(214, 63, 140, 0.15);
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 28px;
   text-align: center;
   margin-top: 0;
+  color: var(--pink-dark);
+  letter-spacing: 1px;
+}
+
+/* Yellow underline accent below the header */
+h1::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 5px;
+  margin: 10px auto 0;
+  border-radius: 4px;
+  background-color: var(--yellow);
 }
 
 /* ---------- Input box and Add button ---------- */
@@ -32,24 +60,33 @@ h1 {
 
 #task-input {
   flex: 1; /* the input takes all the space the button does not use */
-  padding: 10px;
+  padding: 10px 12px;
   font-size: 15px;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
+  color: var(--text);
+  border: 2px solid var(--pink-soft);
+  border-radius: 10px;
+  outline: none;
+}
+
+#task-input:focus {
+  border-color: var(--pink-strong);
+  box-shadow: 0 0 0 3px rgba(255, 217, 61, 0.5);
 }
 
 #add-button {
-  padding: 10px 18px;
+  padding: 10px 20px;
   font-size: 15px;
-  color: #ffffff;
-  background-color: #2f80ed;
-  border: none;
-  border-radius: 4px;
+  font-weight: 600;
+  color: var(--text);
+  background-color: var(--yellow);
+  border: 2px solid var(--yellow-dark);
+  border-radius: 10px;
   cursor: pointer;
 }
 
 #add-button:hover {
-  background-color: #1c66c9;
+  background-color: var(--yellow-pale);
+  border-color: var(--pink-strong);
 }
 
 /* ---------- Filter buttons ---------- */
@@ -60,18 +97,24 @@ h1 {
 }
 
 .filter-button {
-  padding: 6px 12px;
+  padding: 6px 14px;
   font-size: 14px;
-  background-color: #eef1f5;
-  border: 1px solid #d6dbe1;
-  border-radius: 4px;
+  color: var(--text);
+  background-color: var(--pink-pale);
+  border: 2px solid var(--pink-soft);
+  border-radius: 999px;
   cursor: pointer;
+}
+
+.filter-button:hover {
+  background-color: var(--yellow-pale);
+  border-color: var(--yellow-dark);
 }
 
 /* The "active" class is added by JavaScript to the selected filter */
 .filter-button.active {
-  background-color: #2f80ed;
-  border-color: #2f80ed;
+  background-color: var(--pink-strong);
+  border-color: var(--pink-dark);
   color: #ffffff;
 }
 
@@ -86,39 +129,57 @@ h1 {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 4px;
-  border-bottom: 1px solid #eeeeee;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background-color: var(--pink-pale);
+  border: 1px solid var(--pink-soft);
+  border-left: 6px solid var(--yellow);
+  border-radius: 10px;
+}
+
+.task input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--pink-strong);
+  cursor: pointer;
 }
 
 .task-text {
   flex: 1;
   word-break: break-word;
+  cursor: pointer; /* the text can be clicked to toggle completion */
 }
 
 /* A completed task gets the "completed" class, which crosses out the text */
+.task.completed {
+  background-color: #fdf6f8;
+  border-left-color: var(--pink-soft);
+}
+
 .task.completed .task-text {
   text-decoration: line-through;
-  color: #888888;
+  color: var(--text-muted);
 }
 
 .delete-button {
-  padding: 6px 10px;
+  padding: 6px 12px;
   font-size: 13px;
+  font-weight: 600;
   color: #ffffff;
-  background-color: #eb5757;
+  background-color: var(--pink-strong);
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
 .delete-button:hover {
-  background-color: #c94141;
+  background-color: var(--pink-dark);
 }
 
 /* ---------- Empty message ---------- */
 #empty-message {
   text-align: center;
-  color: #888888;
+  color: var(--text-muted);
   font-size: 14px;
 }
 
@@ -126,17 +187,3 @@ h1 {
 .hidden {
   display: none;
 }
-
-.hidden {
-  display: none;
-}
-.hidden {
-  display: none;
-}
-/* 
-/* ---------- Empty message ---------- */
-#empty-message {
-  text-align: center;
-  color: #888888;
-  font-size: 14px;
-} */

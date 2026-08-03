@@ -1,6 +1,6 @@
-# todoo-app — Basic To-Do List Web App
+# todoo-app — Todoo, a Basic To-Do List Web App
 
-A beginner-friendly To-Do List built with plain **HTML**, **CSS** and **vanilla JavaScript**.
+A beginner-friendly To-Do List with a pink-and-yellow theme, built with plain **HTML**, **CSS** and **vanilla JavaScript**.
 No frameworks, no build tools, no external libraries. Tasks are stored in the browser's
 **Local Storage**, so they are still there after you refresh the page.
 
@@ -8,9 +8,10 @@ No frameworks, no build tools, no external libraries. Tasks are stored in the br
 
 - Add a new task (click **Add** or press **Enter**)
 - Delete a task
-- Mark a task as completed (checkbox) — completed tasks are shown with a line-through
+- Mark a task as completed (tick the checkbox or click the task text) — completed tasks are shown with a line-through
 - Tasks are saved in Local Storage and restored on page load
 - Filter tasks: **All**, **Completed**, **Pending**
+- Pink and yellow colour theme (pink card, borders and Delete button; yellow Add button, accents and hover states)
 
 ## Folder structure
 
@@ -111,6 +112,7 @@ You can see the stored value yourself: **DevTools (F12) → Application → Loca
 | `#add-button` | `click` | Runs `addTask()` |
 | `#task-input` | `keydown` | If the pressed key is `Enter`, runs `addTask()` |
 | Each row checkbox | `change` | Runs `toggleTask(id)` for that task |
+| Each row task text | `click` | Runs `toggleTask(id)` for that task |
 | Each row Delete button | `click` | Runs `deleteTask(id)` for that task |
 | Each filter button | `click` | Sets `currentFilter` from `data-filter`, moves the `active` highlight, redraws |
 

@@ -108,6 +108,9 @@ function showTasks() {
     textSpan.className = "task-text";
     textSpan.textContent = task.text; // textContent is safe: it never runs HTML
 
+    // Clicking the text toggles the task too, not only the checkbox
+    textSpan.addEventListener("click", createToggleHandler(task.id));
+
     // The Delete button for this task
     var deleteButton = document.createElement("button");
     deleteButton.className = "delete-button";
